@@ -157,11 +157,22 @@ main { min-height: 0; padding: 9px 10px 8px; }
 .gauge-meta { height: 22px; background: #f1f4f2; border-radius: 5px; display: flex; align-items: center; justify-content: space-between; padding: 0 6px; font-size: 6.5px; color: #71807a; gap: 4px; white-space: nowrap; }.gauge-meta b { color: #263532; font-family: "JetBrains Mono", monospace; }.gauge-meta span:last-child { color: var(--accent); font-weight: 700; }
 .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #e2e7e4; border-bottom: 1px solid #e2e7e4; }
 .metric { background: #fbfcfb; min-width: 0; padding: 9px 8px; }.metric-label { display: flex; align-items: center; gap: 4px; color: #88938f; font-size: 6.5px; font-weight: 700; letter-spacing: .06em; white-space: nowrap; }.metric-value { margin-top: 4px; white-space: nowrap; }.metric-value b { font: 600 13px "JetBrains Mono", monospace; letter-spacing: -.04em; }.metric-value span { color: #8b9692; font-size: 6.5px; margin-left: 4px; }.metric.green b { color: #159473; }.metric.orange b { color: #e45c36; }
-.control-deck { min-height: 0; display: grid; grid-template-columns: 1fr 1fr 68px; grid-template-rows: 25px 1fr; column-gap: 11px; padding: 8px 10px 10px; align-items: center; }
-.control-title { grid-column: 1 / 3; display: flex; align-items: center; gap: 6px; font-size: 7px; font-weight: 800; letter-spacing: .08em; }.control-title small { margin-left: auto; color: #a1aaa7; font: 500 6px "JetBrains Mono", monospace; }
-.pedal-row { align-self: stretch; border: 1px solid #dde4e0; border-radius: 7px; padding: 7px 8px; background: #f8faf9; display: grid; align-content: center; }.pedal-row label { display: flex; justify-content: space-between; font-size: 7px; font-weight: 800; letter-spacing: .07em; }.pedal-row b { font-family: "JetBrains Mono", monospace; font-size: 8px; }.accel-row b { color: #159b77; }.brake-row b { color: #e45b3a; }
-.pedal-row input { --fill: 0%; width: 100%; height: 3px; margin: 9px 0 2px; appearance: none; border-radius: 2px; background: linear-gradient(to right, var(--pedal-color) 0 var(--fill), #dce3e0 var(--fill) 100%); outline: none; cursor: pointer; }.pedal-row input::-webkit-slider-thumb { appearance: none; width: 13px; height: 13px; background: #fff; border: 3px solid var(--pedal-color); border-radius: 50%; box-shadow: 0 1px 4px rgba(0,0,0,.15); }.pedal-row input::-moz-range-thumb { width: 8px; height: 8px; background: #fff; border: 3px solid var(--pedal-color); border-radius: 50%; }.accel-row { --pedal-color: var(--green); }.brake-row { --pedal-color: var(--orange); }
-.run-button { grid-column: 3; grid-row: 1 / 3; align-self: stretch; border: 0; border-radius: 8px; background: var(--lime); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: pointer; transition: .2s; }.run-button.running { background: #172827; color: #fff; }.run-button span { font-size: 7px; font-weight: 800; letter-spacing: .08em; }.run-button:hover { transform: translateY(-1px); box-shadow: 0 5px 12px rgba(22, 41, 39, .15); }
+.control-deck { min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 68px; grid-template-rows: 30px 1fr; gap: 8px 12px; padding: 12px 14px 14px; align-items: center; background: linear-gradient(180deg, #f2f7f4, #f8faf9); }
+.control-title { grid-column: 1 / 3; display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 800; letter-spacing: .06em; }
+.control-title small { margin-left: auto; color: #7c8e84; font: 500 8px "JetBrains Mono", monospace; }
+.pedal-row { min-width: 0; align-self: stretch; border: 1px solid #d7e2db; border-top: 3px solid var(--pedal-color); border-radius: 10px; padding: 18px 14px; background: #fff; display: grid; align-content: center; gap: 12px; transition: border-color .15s, box-shadow .15s; }
+.pedal-row:hover, .pedal-row:focus-within { border-color: var(--pedal-color); box-shadow: 0 3px 14px color-mix(in srgb, var(--pedal-color) 12%, transparent); }
+.pedal-row label { display: grid; gap: 8px; font-size: 14px; font-weight: 800; line-height: 1.35; letter-spacing: .02em; cursor: pointer; overflow-wrap: anywhere; }
+.pedal-row b { font: 600 28px "JetBrains Mono", monospace; letter-spacing: -.05em; }
+.accel-row b { color: #159b77; }.brake-row b { color: #e45b3a; }
+.pedal-row input { --fill: 0%; width: 100%; height: 44px; margin: 0; appearance: none; border-radius: 6px; background: linear-gradient(to right, var(--pedal-color) 0 var(--fill), #dce3e0 var(--fill) 100%) center / 100% 8px no-repeat; cursor: grab; touch-action: pan-y; }
+.pedal-row input:active { cursor: grabbing; }
+.pedal-row input:focus-visible { outline: 2px solid var(--pedal-color); outline-offset: 4px; }
+.pedal-row input::-webkit-slider-thumb { appearance: none; width: 26px; height: 26px; background: #fff; border: 4px solid var(--pedal-color); border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,.15); }
+.pedal-row input::-moz-range-thumb { box-sizing: border-box; width: 26px; height: 26px; background: #fff; border: 4px solid var(--pedal-color); border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,.15); }
+.accel-row { --pedal-color: var(--green); }.brake-row { --pedal-color: var(--orange); }
+.run-button { grid-column: 3; grid-row: 1 / 3; align-self: stretch; border: 0; border-radius: 8px; background: var(--lime); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: .2s; }
+.run-button.running { background: #172827; color: #fff; }.run-button span { font-size: 11px; font-weight: 800; letter-spacing: .04em; }.run-button:hover { transform: translateY(-1px); box-shadow: 0 5px 12px rgba(22, 41, 39, .15); }
 
 .side-stack { display: grid; grid-template-rows: minmax(184px, 1fr) minmax(184px, .96fr) minmax(184px, .96fr); gap: 8px; min-height: 0; }
 .efficiency-panel, .power-panel, .battery-panel { overflow: hidden; min-height: 0; }
@@ -259,11 +270,7 @@ main { min-height: 0; padding: 9px 10px 8px; }
 .gauge-meta { font-size: 8px; }
 .metric-label { font-size: 8px; }
 .metric-value span { font-size: 8px; }
-.control-title { font-size: 8.5px; }
-.control-title small { font-size: 7px; }
-.pedal-row label { font-size: 8.5px; }
-.pedal-row b { font-size: 9px; }
-.run-button span { font-size: 8px; }
+
 
 
 .eff-now span { font-size: 7.5px; }
