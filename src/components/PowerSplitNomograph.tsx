@@ -10,9 +10,10 @@ export function PowerSplitNomograph({ snapshot, t }: { snapshot: SimulationSnaps
   const right = 432
   // nC = (S*nS + R*nR)/(S+R): C sits R/(S+R) of the way from S to R.
   const carrier = left + (right - left) * PRIUS.ringTeeth / (PRIUS.ringTeeth + PRIUS.sunTeeth)
-  // A shared symmetric scale preserves both collinearity and the zero crossing.
-  const range = Math.max(10000, ...[snapshot.mg1, snapshot.engine, snapshot.mg2].map(s => Math.abs(s.rpm)))
-  const y = (rpm: number) => 100 - rpm / range * 46
+  // Keep the scale fixed across engine starts/stops. The model can exceed
+  // 10k MG1 rpm during EV/coasting; 20k covers its full simulated speed range.
+  const range = 20000
+  const y = (rpm: number) => 155 - rpm / range * 60
   const shafts = [
     { key: 'mg1', label: 'MG1', role: t('sun'), state: snapshot.mg1, x: left, accent: '#6476ef' },
     { key: 'engine', label: 'ENG', role: t('carrier'), state: snapshot.engine, x: carrier, accent: '#eb623e' },
@@ -21,7 +22,7 @@ export function PowerSplitNomograph({ snapshot, t }: { snapshot: SimulationSnaps
   return (
     <section className="nomograph" aria-label={t('seesawTitle')}>
       <div className="nomograph-head"><b>{t('seesawTitle')}</b><span>{t('seesawScale')}</span></div>
-      <svg viewBox="0 0 500 178" role="img" aria-labelledby={`${id}-title ${id}-desc`}>
+      <svg viewBox="0 0 500 285" role="img" aria-labelledby={`${id}-title ${id}-desc`}>
         <title id={`${id}-title`}>{t('seesawTitle')}</title>
         <desc id={`${id}-desc`}>{t('seesawHelp')} {t('torqueHelp')}</desc>
         <defs>
@@ -44,16 +45,16 @@ export function PowerSplitNomograph({ snapshot, t }: { snapshot: SimulationSnaps
           const py = y(state.rpm)
           const active = Math.abs(state.torque) >= 0.05
           const positive = state.torque > 0
-          const length = Math.min(29, Math.abs(state.torque) / 400 * 29)
+          const length = Math.min(87, Math.abs(state.torque) / 400 * 87)
           const end = py + (positive ? -1 : 1) * length
           return (
             <g key={key} data-shaft={key} data-rpm={state.rpm} data-torque={state.torque}>
               <text x={x} y="15" textAnchor="middle" fill={accent} className="nomograph-name">{label}</text>
               <text x={x} y="29" textAnchor="middle" className="nomograph-role">{role}</text>
-              <line x1={x} x2={x} y1="43" y2="153" className="nomograph-axis" />
+              <line x1={x} x2={x} y1="43" y2="254" className="nomograph-axis" />
               <circle cx={x} cy={py} r="5" fill="white" stroke={accent} strokeWidth="2.5" />
               {active && <line className={`nomograph-torque ${positive ? 'positive' : 'negative'}`} x1={x + 11} x2={x + 11} y1={py} y2={end} markerEnd={`url(#${id}-${positive ? 'positive' : 'negative'})`} />}
-              <text x={x} y="171" textAnchor="middle" className="nomograph-rpm">{signed(state.rpm)}</text>
+              <text x={x} y="277" textAnchor="middle" className="nomograph-rpm">{signed(state.rpm)}</text>
             </g>
           )
         })}

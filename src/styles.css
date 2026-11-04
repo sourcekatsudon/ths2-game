@@ -96,7 +96,7 @@ main { min-height: 0; padding: 9px 10px 8px; }
   gap: 8px;
   margin-top: 8px;
   height: calc(100vh - 299px);
-  min-height: 570px;
+  min-height: 660px;
 }
 .panel { background: rgba(251, 252, 251, .96); border: 1px solid #d7ddda; border-radius: 12px; box-shadow: 0 6px 22px rgba(27, 42, 38, .045); }
 .panel-header { height: 60px; border-bottom: 1px solid #e2e7e4; padding: 10px 13px; display: flex; justify-content: space-between; align-items: center; }
@@ -106,7 +106,7 @@ main { min-height: 0; padding: 9px 10px 8px; }
 .eyebrow { display: flex; align-items: center; gap: 5px; color: #78847f; font-size: 7.5px; line-height: 1; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
 .ratio-badge { display: flex; flex-direction: column; align-items: flex-end; }.ratio-badge span { font-size: 7px; color: #8b9692; letter-spacing: .1em; }.ratio-badge b { font: 600 15px "JetBrains Mono", monospace; }.ratio-badge i { color: #a5b1ad; font-style: normal; }
 
-.psd-panel { overflow: hidden; display: grid; grid-template-rows: 60px minmax(230px, 1fr) 240px 39px; min-height: 0; }
+.psd-panel { overflow: hidden; display: grid; grid-template-rows: 60px minmax(230px, 1fr) 330px 39px; min-height: 0; }
 .psd-stage { position: relative; min-height: 0; background: radial-gradient(circle at 50% 44%, #fafdfe 0, #f2f6f4 52%, #edf2ef 100%); }
 .psd-stage::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(39,66,61,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(39,66,61,.04) 1px, transparent 1px); background-size: 35px 35px; pointer-events: none; }
 .three-wrap { position: absolute; inset: 0; }.three-wrap canvas { cursor: grab; }.three-wrap canvas:active { cursor: grabbing; }
@@ -136,7 +136,7 @@ main { min-height: 0; padding: 9px 10px 8px; }
 .nomograph-beam-shadow { stroke: #d5e6dd; stroke-width: 10; stroke-linecap: round; }
 .nomograph-beam { stroke: #2d4d42; stroke-width: 3; stroke-linecap: round; }
 .nomograph-rpm { fill: #294337; font: 600 12px "JetBrains Mono", monospace; }
-.nomograph-torque { stroke-width: 3; stroke-linecap: round; }
+.nomograph-torque { stroke-width: 4; stroke-linecap: round; }
 .nomograph .positive { color: #b96113; stroke: #d97920; }
 .nomograph .negative { color: #286fb7; stroke: #367dc9; }
 .nomograph .neutral { color: #87968e; }
@@ -201,7 +201,7 @@ main { min-height: 0; padding: 9px 10px 8px; }
 .source-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 3px; }.source-links a { border: 1px solid #d7e1dd; border-radius: 6px; padding: 6px 8px; color: #337963; font: 700 6.5px "JetBrains Mono", monospace; text-decoration: none; }.source-links a:hover { border-color: #66aa93; background: #f2fff9; }
 
 @media (max-width: 1250px) {
-  .dashboard-grid { grid-template-columns: minmax(370px, .9fr) minmax(450px, 1.1fr); height: auto; min-height: 570px; }
+  .dashboard-grid { grid-template-columns: minmax(370px, .9fr) minmax(450px, 1.1fr); height: auto; min-height: 660px; }
   .side-stack { grid-column: 1 / -1; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 205px; }
   .efficiency-panel { grid-template-rows: 48px 1fr 18px; }.app-footer { margin-top: 8px; }
 }
@@ -209,7 +209,7 @@ main { min-height: 0; padding: 9px 10px 8px; }
 @media (max-width: 850px) {
   .app-shell { display: block; }.app-header { height: 56px; position: sticky; top: 0; }.vehicle-id, .header-status, .header-divider { display: none; }.brand-copy { min-width: 0; flex: 1; }.brand-copy span { display: none; }.header-button { padding: 0 9px; }
   main { padding: 7px; }.road-stage { height: 215px; }.weather-mark, .location-mark { display: none; }.route-readout > div:nth-child(2) { display: none; }
-  .dashboard-grid { display: flex; flex-direction: column; height: auto; min-height: 0; }.psd-panel { height: 615px; }.live-panel { min-height: 530px; }.side-stack { display: flex; flex-direction: column; }.efficiency-panel { height: 230px; }.power-panel { height: 210px; }.battery-panel { min-height: 195px; }
+  .dashboard-grid { display: flex; flex-direction: column; height: auto; min-height: 0; }.psd-panel { height: 705px; }.live-panel { min-height: 530px; }.side-stack { display: flex; flex-direction: column; }.efficiency-panel { height: 230px; }.power-panel { height: 210px; }.battery-panel { min-height: 195px; }
   .app-footer { height: 35px; }.app-footer span:nth-child(2) { display: none; }
 }
 
@@ -217,7 +217,7 @@ main { min-height: 0; padding: 9px 10px 8px; }
   .app-header .icon-button { display: none; }.header-button { width: 34px; max-width: 34px; padding: 0; font-size: 0; }.language-switch { min-width: 57px; padding: 0 5px; }
   .road-stage { height: 200px; }.speed-readout { right: 10px; width: 105px; }.speed-readout > span { font-size: 25px; }.stage-chrome { left: 9px; top: 9px; }.terrain-chip { display: none; }.route-readout { left: 9px; }
   .gauge-grid { grid-template-columns: 1fr; }.gauge { display: grid; grid-template-columns: 1fr 110px; grid-template-rows: auto auto; align-items: center; }.gauge-heading { align-self: start; }.gauge-dial { grid-column: 2; grid-row: 1 / 3; }.gauge-meta { align-self: end; }.live-panel { grid-template-rows: 60px auto auto auto; }.metrics-grid { grid-template-columns: repeat(2, 1fr); }.control-deck { grid-template-columns: 1fr 58px; grid-template-rows: 24px auto auto; }.control-title { grid-column: 1; }.pedal-row { margin-top: 5px; }.run-button { grid-column: 2; grid-row: 1 / 4; }
-  .psd-panel { height: 590px; }.constraint-status, .constraint-error { display: none; }.constraint-strip { justify-content: center; }
+  .psd-panel { height: 680px; }.constraint-status, .constraint-error { display: none; }.constraint-strip { justify-content: center; }
   .side-stack { grid-template-columns: 1fr; }.learn-panel { padding: 22px 15px; }.learn-equation { flex-wrap: wrap; padding: 15px 8px; font-size: 10px; gap: 8px; }.learn-grid { grid-template-columns: 1fr; }
 }
 
