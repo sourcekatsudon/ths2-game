@@ -20,7 +20,7 @@ export function EnergyFlow({ snapshot, t }: { snapshot: SimulationSnapshot; t: T
           <path className={engineActive ? 'active hot' : ''} d="M52 31 C100 31 104 62 151 62" />
           <path className={wheelDrive || engineActive ? 'active drive' : ''} d="M169 62 C216 62 218 31 270 31" />
           <path className={batteryOut ? 'active electric' : ''} d="M52 100 C101 100 103 68 151 68" />
-          <path className={batteryIn || wheelRegen ? 'active regen reverse' : ''} d="M270 38 C220 78 109 104 52 104" />
+          <path className={batteryIn || wheelRegen ? 'active regen' : ''} d="M270 38 C220 78 109 104 52 104" />
         </svg>
         <div className={`energy-node engine-node ${engineActive ? 'active' : ''}`}><Gauge size={18} /><b>{t('engine')}</b><small>{snapshot.engine.powerKw.toFixed(1)} kW</small></div>
         <div className="energy-node psd-node active"><Disc3 size={18} /><b>PSD</b><small>78 : 30</small></div>
