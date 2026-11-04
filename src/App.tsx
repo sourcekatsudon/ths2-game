@@ -7,7 +7,7 @@ import { EfficiencyMap } from './components/EfficiencyMap'
 import { EnergyFlow } from './components/EnergyFlow'
 import { Gauge } from './components/Gauge'
 import { RoadScene } from './components/RoadScene'
-import { RotationComparator } from './components/RotationComparator'
+import { PowerSplitNomograph } from './components/PowerSplitNomograph'
 import { localeLabels, modeTranslationKey, translate, type Locale, type TFunction } from './i18n'
 import { PRIUS } from './simulation/model'
 import { useSimulation } from './simulation/useSimulation'
@@ -99,7 +99,7 @@ export default function App() {
                 <span><i className="ring-swatch" /> {t('ring')} <b>{t('ringOutput')}</b></span>
               </div>
             </div>
-            <RotationComparator snapshot={snapshot} t={t} />
+            <PowerSplitNomograph snapshot={snapshot} t={t} />
             <div className="constraint-strip">
               <div className="constraint-status"><i /><span>{t('kinematicConstraint')}</span><b>{t('locked')}</b></div>
               <code>78 n<sub>MG2</sub> + 30 n<sub>MG1</sub> = 108 n<sub>ENG</sub></code>

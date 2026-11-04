@@ -3,6 +3,7 @@ import type { DriveMode, TerrainKind } from './simulation/model'
 export type Locale = 'EN' | 'JP' | 'ZH' | 'DE' | 'FR'
 
 const en = {
+  seesawTitle: "SHAFT SPEED SEESAW", seesawScale: "HEIGHT = rpm", seesawHelp: "Three speeds, one straight line · spacing 78 : 30", torqueHelp: "Torque: arrow length ∝ Nm · MG2 motor only",
   brandSubtitle: 'INTERACTIVE HYBRID DRIVETRAIN', simulationVehicle: 'SIMULATION VEHICLE', gpuRendering: 'GPU RENDERING', learn: 'LEARN', reset: 'Reset simulation', language: 'Language',
   dry: 'DRY', testCourse: 'TEST COURSE 01', nextSurfaceIn: 'Next surface in', distance: 'DISTANCE',
   flat: 'Flat road', uphill: 'Uphill', downhill: 'Downhill', rough: 'Rough road',
@@ -31,6 +32,7 @@ export type TFunction = (key: TranslationKey) => string
 type Dictionary = Record<TranslationKey, string>
 
 const jp: Dictionary = {
+  seesawTitle: "3軸シーソー（共線図）", seesawScale: "高さ = 回転数", seesawHelp: "3軸の回転数は常に一直線 · 軸間隔 78 : 30", torqueHelp: "トルク：矢印の長さ ∝ Nm · MG2はモーター分",
   brandSubtitle: '対話型ハイブリッド駆動教材', simulationVehicle: '模擬車両', gpuRendering: 'GPU描画', learn: '学ぶ', reset: 'シミュレーションをリセット', language: '言語',
   dry: 'ドライ', testCourse: 'テストコース 01', nextSurfaceIn: '次の路面まで', distance: '走行距離',
   flat: '平坦路', uphill: '上り坂', downhill: '下り坂', rough: '悪路',
@@ -55,6 +57,7 @@ const jp: Dictionary = {
 }
 
 const zh: Dictionary = {
+  seesawTitle: "三轴跷跷板（共线图）", seesawScale: "高度 = 转速", seesawHelp: "三轴转速始终共线 · 轴间距 78 : 30", torqueHelp: "扭矩：箭头长度 ∝ Nm · MG2仅电机",
   brandSubtitle: '交互式混合动力传动系统', simulationVehicle: '模拟车辆', gpuRendering: 'GPU渲染', learn: '学习', reset: '重置模拟', language: '语言',
   dry: '干燥', testCourse: '测试路线 01', nextSurfaceIn: '距下一路面', distance: '行驶距离', flat: '平路', uphill: '上坡', downhill: '下坡', rough: '颠簸路',
   ready: '就绪', evDrive: '纯电行驶', hybridDrive: '混合动力', engineCharge: '发动机充电', regenerating: '能量回收', descentHold: '下坡定速', coasting: '滑行',
@@ -68,6 +71,7 @@ const zh: Dictionary = {
 }
 
 const de: Dictionary = {
+  seesawTitle: "DREHZAHLWIPPE", seesawScale: "HÖHE = rpm", seesawHelp: "Drei Drehzahlen auf einer Geraden · Abstand 78 : 30", torqueHelp: "Drehmoment: Pfeillänge ∝ Nm · MG2 nur Motor",
   brandSubtitle: 'INTERAKTIVER HYBRIDANTRIEB', simulationVehicle: 'SIMULATIONSFAHRZEUG', gpuRendering: 'GPU-DARSTELLUNG', learn: 'LERNEN', reset: 'Simulation zurücksetzen', language: 'Sprache', dry: 'TROCKEN', testCourse: 'TESTSTRECKE 01', nextSurfaceIn: 'Nächster Belag in', distance: 'STRECKE', flat: 'Ebene', uphill: 'Steigung', downhill: 'Gefälle', rough: 'Schlechtweg',
   ready: 'BEREIT', evDrive: 'EV-FAHRT', hybridDrive: 'HYBRIDFAHRT', engineCharge: 'MOTOR LÄDT', regenerating: 'REKUPERATION', descentHold: 'GEFÄLLEHALT', coasting: 'ROLLEN', live3d: 'LIVE-3D-BAUGRUPPE', powerSplitDevice: 'LEISTUNGSVERZWEIGUNG', gearRatio: 'ZÄHNEZAHL', dragHint: 'ZIEHEN: DREHEN · RAD: ZOOM', carrier: 'TRÄGER', engine: 'VERBRENNER', sun: 'SONNE', ring: 'HOHLRAD', outputShort: 'ABTRIEB', ringOutput: 'MG2 / ABTRIEB', kinematicConstraint: 'KINEMATISCHE BINDUNG', locked: 'ERFÜLLT', rotationComparison: 'DREHZAHLVERGLEICH', visualScale: 'ANZEIGETEMPO 1/240', relativeToMax: 'RELATIV ZUR SCHNELLSTEN WELLE', clockwise: 'RECHTS', counterClockwise: 'LINKS', stopped: 'STOPP', actualSpeed: 'IST-DREHZAHL',
   shaftTelemetry: 'WELLENTELEMETRIE', liveRotation: 'LIVE-DREHZAHLEN', planetCarrier: 'PLANETENTRÄGER', sunGear: 'SONNENRAD', ringGear: 'HOHLRAD', tireTorque: 'RADMOMENT', output: 'ANTRIEBSLEISTUNG', regen: 'REKUPERATION', fuelRate: 'MOMENTANVERBRAUCH', driverInput: 'FAHREREINGABE', accel: 'FAHRPEDAL', brake: 'BREMSE', pause: 'PAUSE', start: 'START', engineModel: '1NZ-FXE MODELL', engineEfficiency: 'MOTORWIRKUNGSGRAD', now: 'AKTUELL', torqueAxis: 'DREHMOMENT / Nm', powerConversion: 'ENERGIEWANDLUNG', energyFlow: 'ENERGIEFLUSS', wheels: 'RÄDER', battery: 'BATTERIE', power: 'LEISTUNG', nominal: 'NENNSPANNUNG', hvBattery: 'HV-BATTERIE', soc: 'LADEZUSTAND', controlWindow: 'REGELFENSTER 40–80%', voltage: 'SPANNUNG', current: 'STROM',
@@ -75,6 +79,7 @@ const de: Dictionary = {
 }
 
 const fr: Dictionary = {
+  seesawTitle: "BALANCIER DES RÉGIMES", seesawScale: "HAUTEUR = tr/min", seesawHelp: "Trois régimes sur une droite · distance 78 : 30", torqueHelp: "Couple : longueur ∝ Nm · MG2 moteur seul",
   brandSubtitle: 'TRANSMISSION HYBRIDE INTERACTIVE', simulationVehicle: 'VÉHICULE SIMULÉ', gpuRendering: 'RENDU GPU', learn: 'APPRENDRE', reset: 'Réinitialiser la simulation', language: 'Langue', dry: 'SEC', testCourse: 'PISTE D’ESSAI 01', nextSurfaceIn: 'Prochain profil dans', distance: 'DISTANCE', flat: 'Route plate', uphill: 'Montée', downhill: 'Descente', rough: 'Route dégradée',
   ready: 'PRÊT', evDrive: 'MODE ÉLECTRIQUE', hybridDrive: 'MODE HYBRIDE', engineCharge: 'RECHARGE MOTEUR', regenerating: 'RÉGÉNÉRATION', descentHold: 'MAINTIEN DESCENTE', coasting: 'ROUE LIBRE', live3d: 'MÉCANISME 3D EN DIRECT', powerSplitDevice: 'RÉPARTITEUR DE PUISSANCE', gearRatio: 'DENTURE', dragHint: 'GLISSER : ORBITE · MOLETTE : ZOOM', carrier: 'PORTE-SATELLITES', engine: 'MOTEUR', sun: 'SOLAIRE', ring: 'COURONNE', outputShort: 'SORTIE', ringOutput: 'MG2 / SORTIE', kinematicConstraint: 'CONTRAINTE CINÉMATIQUE', locked: 'VALIDÉE', rotationComparison: 'COMPARAISON DES AXES', visualScale: 'VITESSE VISUELLE 1/240', relativeToMax: 'RELATIF À L’AXE LE PLUS RAPIDE', clockwise: 'HORAIRE', counterClockwise: 'ANTIHORAIRE', stopped: 'ARRÊT', actualSpeed: 'RÉEL',
   shaftTelemetry: 'TÉLÉMÉTRIE DES AXES', liveRotation: 'ROTATION EN DIRECT', planetCarrier: 'PORTE-SATELLITES', sunGear: 'ROUE SOLAIRE', ringGear: 'COURONNE', tireTorque: 'COUPLE AUX ROUES', output: 'PUISSANCE', regen: 'RÉGÉNÉRATION', fuelRate: 'CONSOMMATION INSTANT.', driverInput: 'COMMANDE CONDUCTEUR', accel: 'ACCÉLÉRATEUR', brake: 'FREIN', pause: 'PAUSE', start: 'DÉMARRER', engineModel: 'MODÈLE 1NZ-FXE', engineEfficiency: 'RENDEMENT MOTEUR', now: 'ACTUEL', torqueAxis: 'COUPLE / Nm', powerConversion: 'CONVERSION D’ÉNERGIE', energyFlow: 'FLUX D’ÉNERGIE', wheels: 'ROUES', battery: 'BATTERIE', power: 'PUISSANCE', nominal: 'NOMINALE', hvBattery: 'BATTERIE HT', soc: 'CHARGE', controlWindow: 'FENÊTRE DE CONTRÔLE 40–80%', voltage: 'TENSION', current: 'COURANT',

@@ -119,8 +119,10 @@ function calculateStep(state: MutableState, input: DriverInput, dt: number) {
   const distance = previous.distance + state.speedMs * dt
 
   const mg1TorqueMagnitude = engineOn ? engineTorque * PRIUS.sunTeeth / (PRIUS.ringTeeth + PRIUS.sunTeeth) : 0
-  const mg1MechanicalPowerKw = engineOn ? -Math.min(PRIUS.mg1MaxPowerKw, Math.abs(mg1TorqueMagnitude * rpmToOmega(mg1Rpm) / 1000)) : 0
-  const mg1Torque = Math.abs(rpmToOmega(mg1Rpm)) > 0.5 ? mg1MechanicalPowerKw * 1000 / rpmToOmega(mg1Rpm) : 0
+  // MG1 reaction opposes the engine torque, even at zero or reverse speed.
+  // P = Tω: negative rpm with negative torque is motoring, not generation.
+  const mg1Torque = -mg1TorqueMagnitude
+  const mg1MechanicalPowerKw = mg1Torque * rpmToOmega(mg1Rpm) / 1000
   const mg2PowerKw = mg2Torque * rpmToOmega(mg2Rpm) / 1000
   const mg1Eff = motorEfficiency(mg1Rpm, mg1Torque, PRIUS.mg1MaxRpm, 55)
   const mg2Eff = motorEfficiency(mg2Rpm, mg2Torque, PRIUS.mg2MaxRpm, PRIUS.mg2MaxTorqueNm)
