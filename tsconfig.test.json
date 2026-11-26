@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "outDir": ".test-dist",
+    "rootDir": "."
+  },
+  "include": [
+    "src/simulation/model.ts",
+    "src/simulation/epowerModel.ts",
+    "src/simulation/thsStep.ts",
+    "tests/**/*.ts"
+  ]
+}

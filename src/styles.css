@@ -300,3 +300,125 @@ main { min-height: 0; padding: 9px 10px 8px; }
   .header-button { font-size: 0; }
   .axis-legend span { font-size: 7px; }
 }
+
+/* Header segmented system switcher (THS2 | e-POWER GEN 3) */
+.system-switcher {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px;
+  gap: 3px;
+  border-radius: 10px;
+  background: #eaf0ec;
+  border: 1px solid #d0dad5;
+  flex-shrink: 0;
+}
+.system-switcher button {
+  height: 28px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #53645f;
+  font: 800 10px "JetBrains Mono", Inter, sans-serif;
+  letter-spacing: .05em;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease, box-shadow .18s ease, transform .15s ease;
+  white-space: nowrap;
+}
+.system-switcher button span {
+  font-size: 8px;
+  padding: 1.5px 4.5px;
+  border-radius: 4px;
+  background: rgba(20, 35, 35, .08);
+  color: inherit;
+  letter-spacing: .06em;
+}
+.system-switcher button:hover:not(.active) {
+  color: #142323;
+  background: rgba(255, 255, 255, .65);
+}
+.system-switcher button.active {
+  background: #142323;
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(17, 34, 32, .2);
+}
+.system-switcher button.active.epower-tab span {
+  background: rgba(202, 255, 69, .22);
+  color: var(--lime);
+}
+.system-switcher button:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+}
+
+/* e-POWER visual accents while keeping identical light cockpit theme */
+.brand-mark.epower-mark {
+  background: linear-gradient(135deg, #122526, #1b3b3a);
+  color: var(--lime);
+  box-shadow: inset 0 0 0 1px rgba(186, 251, 207, .28);
+}
+.three-label.dcbus-label { background: #192b2a; }
+.three-label.batt-label { background: #266b56; }
+.mode-pill.series-drive { background: #eef1ff; color: #4d5dd4; border-color: #ced5fb; }
+.mode-pill.power-assist { background: #fff1ec; color: #e45b34; border-color: #ffd4c6; }
+.learn-equation.epower-equation { gap: 14px; }
+
+/* Independent two-system diagram (e-POWER replacement for THS nomograph) */
+.dual-system .dual-box { stroke-width: 1.2; }
+.dual-system .gen-box { fill: #fff9f6; stroke: #f2d5cb; }
+.dual-system .drive-box { fill: #f3fbf8; stroke: #c9e6dc; }
+.dual-system .dual-box-title { font-size: 9.5px; font-weight: 800; letter-spacing: .06em; }
+.dual-system .gen-title { fill: #c65130; }
+.dual-system .drive-title { fill: #198c70; }
+.dual-system .dual-box-sub { fill: #75867d; font: 600 8.5px "JetBrains Mono", monospace; }
+.dual-system .nomograph-zero-line { stroke: #99aaa2; stroke-dasharray: 4 3; }
+.dual-system .nomograph-top-line { stroke: #dfe7e3; stroke-dasharray: 3 5; }
+.dual-system .dual-mech-link { stroke: #9fb0a8; stroke-width: 3.5; stroke-linecap: round; }
+.dual-system .dual-mech-link.active-gen { stroke: #e86b42; }
+.dual-system .dual-mech-link.active-drive { stroke: #1caa89; }
+.dual-system .dual-ratio-pill { fill: #142323; }
+.dual-system .dual-ratio-text { fill: #caff45; font: 700 8.5px "JetBrains Mono", monospace; }
+.dual-system .dual-shaft-name { font-size: 11px; font-weight: 800; }
+.dual-system .dual-shaft-sub { fill: #71827a; font: 500 8.5px "JetBrains Mono", monospace; }
+.dual-system .dual-isolation { stroke: #bcc9c3; stroke-width: 1.2; stroke-dasharray: 4 4; }
+.dual-system .dual-elec-badge { fill: #4d5dd4; font: 800 8.5px "JetBrains Mono", monospace; letter-spacing: .05em; }
+.dual-system .dual-dcbus-box { fill: #162727; stroke: #2c4a46; stroke-width: 1.2; }
+.dual-system .dual-dcbus-title { fill: #caff45; font: 800 10px "JetBrains Mono", monospace; }
+.dual-system .dual-dcbus-sub { fill: #b7ccc4; font: 600 9px "JetBrains Mono", monospace; }
+.dual-system .dual-batt-box { fill: #f4f8f6; stroke: #c9d8d1; stroke-width: 1.2; }
+.dual-system .dual-batt-box.active { fill: #f1fff8; stroke: #6dc9aa; }
+.dual-system .dual-batt-title { fill: #41524d; font-size: 8.5px; font-weight: 800; }
+.dual-system .dual-batt-kw { fill: #778780; font: 700 9.5px "JetBrains Mono", monospace; }
+.dual-system .dual-batt-kw.out { fill: #1a9474; }
+.dual-system .dual-batt-kw.in { fill: #2c78c5; }
+.dual-system .dual-flow-arrow { stroke: #cbd6d1; stroke-width: 2.8; stroke-dasharray: 4 3; }
+.dual-system .dual-flow-arrow.active-gen { stroke: #6476ef; animation: dash .9s linear infinite; }
+.dual-system .dual-flow-arrow.active-drive { stroke: #1caa89; animation: dash .9s linear infinite; }
+.dual-system .dual-flow-arrow.active-regen { stroke: #367dc9; animation: dash .9s linear infinite; }
+.dual-system .dual-flow-arrow.active-batt-out { stroke: #2da867; animation: dash .9s linear infinite; }
+.dual-system .dual-flow-arrow.active-batt-in { stroke: #367dc9; animation: dash .9s linear infinite; }
+.dual-system .dual-kw { fill: #8b9a94; font: 700 9px "JetBrains Mono", monospace; }
+.dual-system .dual-kw.gen { fill: #5869d4; }
+.dual-system .dual-kw.drive { fill: #169173; }
+.dual-system .dual-kw.regen { fill: #2b77c4; }
+
+/* Responsive adjustments so the header switcher stays prominent and clean */
+@media (max-width: 1120px) {
+  .brand-copy { min-width: 170px; }
+  .vehicle-id { display: none; }
+  .header-divider { display: none; }
+}
+@media (max-width: 850px) {
+  .app-header { gap: 7px; padding: 0 10px; }
+  .brand-copy b { font-size: 10.5px; }
+  .system-switcher button { height: 26px; padding: 0 8px; font-size: 9px; }
+}
+@media (max-width: 560px) {
+  .brand-copy { display: none; }
+  .system-switcher { margin-right: auto; }
+  .system-switcher button { padding: 0 7px; font-size: 8.5px; gap: 3px; }
+  .system-switcher button span { font-size: 7px; padding: 1px 3px; }
+}
