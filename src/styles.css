@@ -300,3 +300,404 @@ main { min-height: 0; padding: 9px 10px 8px; }
   .header-button { font-size: 0; }
   .axis-legend span { font-size: 7px; }
 }
+
+/* Header segmented system switcher (THS2 | e-POWER GEN 3) */
+.system-switcher {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px;
+  gap: 3px;
+  border-radius: 10px;
+  background: #eaf0ec;
+  border: 1px solid #d0dad5;
+  flex-shrink: 0;
+}
+.system-switcher button {
+  height: 28px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #53645f;
+  font: 800 10px "JetBrains Mono", Inter, sans-serif;
+  letter-spacing: .05em;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease, box-shadow .18s ease, transform .15s ease;
+  white-space: nowrap;
+}
+.system-switcher button span {
+  font-size: 8px;
+  padding: 1.5px 4.5px;
+  border-radius: 4px;
+  background: rgba(20, 35, 35, .08);
+  color: inherit;
+  letter-spacing: .06em;
+}
+.system-switcher button:hover:not(.active) {
+  color: #142323;
+  background: rgba(255, 255, 255, .65);
+}
+.system-switcher button.active {
+  background: #142323;
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(17, 34, 32, .2);
+}
+.system-switcher button.active.epower-tab span {
+  background: rgba(202, 255, 69, .22);
+  color: var(--lime);
+}
+.system-switcher button:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+}
+
+/* e-POWER visual accents while keeping identical light cockpit theme */
+.brand-mark.epower-mark {
+  background: linear-gradient(135deg, #122526, #1b3b3a);
+  color: var(--lime);
+  box-shadow: inset 0 0 0 1px rgba(186, 251, 207, .28);
+}
+.three-label.dcbus-label { background: #192b2a; }
+.three-label.batt-label { background: #266b56; }
+.mode-pill.series-drive { background: #eef1ff; color: #4d5dd4; border-color: #ced5fb; }
+.mode-pill.power-assist { background: #fff1ec; color: #e45b34; border-color: #ffd4c6; }
+.learn-equation.epower-equation { gap: 14px; }
+
+/* Independent two-system diagram (e-POWER replacement for THS nomograph) */
+.dual-system .dual-box { stroke-width: 1.2; }
+.dual-system .gen-box { fill: #fff9f6; stroke: #f2d5cb; }
+.dual-system .drive-box { fill: #f3fbf8; stroke: #c9e6dc; }
+.dual-system .dual-box-title { font-size: 9.5px; font-weight: 800; letter-spacing: .06em; }
+.dual-system .gen-title { fill: #c65130; }
+.dual-system .drive-title { fill: #198c70; }
+.dual-system .dual-box-sub { fill: #75867d; font: 600 8.5px "JetBrains Mono", monospace; }
+.dual-system .nomograph-zero-line { stroke: #99aaa2; stroke-dasharray: 4 3; }
+.dual-system .nomograph-top-line { stroke: #dfe7e3; stroke-dasharray: 3 5; }
+.dual-system .dual-mech-link { stroke: #9fb0a8; stroke-width: 3.5; stroke-linecap: round; }
+.dual-system .dual-mech-link.active-gen { stroke: #e86b42; }
+.dual-system .dual-mech-link.active-drive { stroke: #1caa89; }
+.dual-system .dual-ratio-pill { fill: #142323; }
+.dual-system .dual-ratio-text { fill: #caff45; font: 700 8.5px "JetBrains Mono", monospace; }
+.dual-system .dual-shaft-name { font-size: 11px; font-weight: 800; }
+.dual-system .dual-shaft-sub { fill: #71827a; font: 500 8.5px "JetBrains Mono", monospace; }
+.dual-system .dual-isolation { stroke: #bcc9c3; stroke-width: 1.2; stroke-dasharray: 4 4; }
+.dual-system .dual-elec-badge { fill: #4d5dd4; font: 800 8.5px "JetBrains Mono", monospace; letter-spacing: .05em; }
+.dual-system .dual-dcbus-box { fill: #162727; stroke: #2c4a46; stroke-width: 1.2; }
+.dual-system .dual-dcbus-title { fill: #caff45; font: 800 10px "JetBrains Mono", monospace; }
+.dual-system .dual-dcbus-sub { fill: #b7ccc4; font: 600 9px "JetBrains Mono", monospace; }
+.dual-system .dual-batt-box { fill: #f4f8f6; stroke: #c9d8d1; stroke-width: 1.2; }
+.dual-system .dual-batt-box.active { fill: #f1fff8; stroke: #6dc9aa; }
+.dual-system .dual-batt-title { fill: #41524d; font-size: 8.5px; font-weight: 800; }
+.dual-system .dual-batt-kw { fill: #778780; font: 700 9.5px "JetBrains Mono", monospace; }
+.dual-system .dual-batt-kw.out { fill: #1a9474; }
+.dual-system .dual-batt-kw.in { fill: #2c78c5; }
+.dual-system .dual-flow-arrow { stroke: #cbd6d1; stroke-width: 2.8; stroke-dasharray: 4 3; }
+.dual-system .dual-flow-arrow.active-gen { stroke: #6476ef; animation: dash .9s linear infinite; }
+.dual-system .dual-flow-arrow.active-drive { stroke: #1caa89; animation: dash .9s linear infinite; }
+.dual-system .dual-flow-arrow.active-regen { stroke: #367dc9; animation: dash .9s linear infinite; }
+.dual-system .dual-flow-arrow.active-batt-out { stroke: #2da867; animation: dash .9s linear infinite; }
+.dual-system .dual-flow-arrow.active-batt-in { stroke: #367dc9; animation: dash .9s linear infinite; }
+.dual-system .dual-kw { fill: #8b9a94; font: 700 9px "JetBrains Mono", monospace; }
+.dual-system .dual-kw.gen { fill: #5869d4; }
+.dual-system .dual-kw.drive { fill: #169173; }
+.dual-system .dual-kw.regen { fill: #2b77c4; }
+
+/* Responsive adjustments so the header switcher stays prominent and clean */
+@media (max-width: 1120px) {
+  .brand-copy { min-width: 170px; }
+  .vehicle-id { display: none; }
+  .header-divider { display: none; }
+}
+@media (max-width: 850px) {
+  .app-header { gap: 7px; padding: 0 10px; }
+  .brand-copy b { font-size: 10.5px; }
+  .system-switcher button { height: 26px; padding: 0 8px; font-size: 9px; }
+}
+@media (max-width: 560px) {
+  .brand-copy { display: none; }
+  .system-switcher { margin-right: auto; }
+  .system-switcher button { padding: 0 6px; font-size: 8px; gap: 3px; }
+  .system-switcher button span { display: none; }
+}
+
+/* ================= MAZDA MX-30 ROTARY-EV ADDITIONS ================= */
+.system-switcher button.active.rotary-tab span {
+  background: rgba(255, 138, 91, .25);
+  color: #ff9c73;
+}
+.brand-mark.rotary-mark {
+  background: linear-gradient(135deg, #1b2226, #2d2324);
+  box-shadow: inset 0 0 0 1px rgba(255, 138, 91, .32);
+}
+.status-pulse.ext { background: #14b8d4; box-shadow: 0 0 8px #14b8d4; }
+.terrain-chip.ext-chip { background: #e8fbff; border-color: #9be2ef; color: #0b7a93; }
+.mode-pill.external-charge { background: #e8fbff; color: #0b7a93; border-color: #9be2ef; }
+
+.three-label.ext-label { background: #0d8ea8; }
+.three-view-toggle {
+  position: absolute;
+  z-index: 4;
+  left: 10px;
+  top: 8px;
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, .86);
+  border: 1px solid #d5dfda;
+  backdrop-filter: blur(8px);
+}
+.three-view-toggle button {
+  border: 0;
+  background: transparent;
+  padding: 4px 7px;
+  border-radius: 5px;
+  font: 700 8px "JetBrains Mono", Inter, sans-serif;
+  color: #5b6d67;
+  cursor: pointer;
+  letter-spacing: .04em;
+  transition: .15s ease;
+}
+.three-view-toggle button.active {
+  background: #142323;
+  color: #fff;
+}
+.rotary-zone-tag {
+  display: inline-block;
+  padding: 2px 5px;
+  border-radius: 4px;
+  font: 800 7.5px "JetBrains Mono", monospace;
+  color: #fff;
+  pointer-events: none;
+  white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0,0,0,.15);
+}
+.rotary-zone-tag.spark-zone { background: rgba(232, 92, 34, .92); }
+.rotary-zone-tag.intake-zone { background: rgba(37, 140, 224, .9); }
+.rotary-zone-tag.exhaust-zone { background: rgba(181, 76, 67, .9); }
+
+/* Live 8C phase + series diagram */
+.rotary-phase-diagram .rotary-card-box { fill: #fffaf7; stroke: #eed6cc; stroke-width: 1.2; }
+.rotary-phase-diagram .rotary-series-box { fill: #f4fbf8; stroke: #cbe5dc; stroke-width: 1.2; }
+.rotary-phase-diagram .rotary-mini-tag { font: 800 7.5px "JetBrains Mono", monospace; fill: #d65424; }
+.rotary-phase-diagram .rotary-mini-tag.intake { fill: #258ce0; }
+.rotary-phase-diagram .rotary-mini-tag.exhaust { fill: #b54c43; }
+.rotary-phase-diagram .rotary-angle-num { font: 700 13px "JetBrains Mono", monospace; fill: #253835; }
+.rotary-phase-diagram .rotary-angle-sub { font: 600 7.5px "JetBrains Mono", monospace; fill: #74857f; }
+.rotary-phase-diagram .dual-box-title { font-size: 9px; font-weight: 800; letter-spacing: .05em; }
+.rotary-phase-diagram .gen-title { fill: #c65130; }
+.rotary-phase-diagram .drive-title { fill: #198c70; }
+.rotary-phase-diagram .dual-box-sub { fill: #75867d; font: 600 8px "JetBrains Mono", monospace; }
+.rotary-phase-diagram .dual-shaft-sub { fill: #71827a; font: 500 8px "JetBrains Mono", monospace; }
+.rotary-phase-diagram .dual-isolation { stroke: #bcc9c3; stroke-width: 1.2; stroke-dasharray: 4 4; }
+.rotary-phase-diagram .dual-dcbus-box { fill: #162727; stroke: #2c4a46; stroke-width: 1.2; }
+.rotary-phase-diagram .dual-dcbus-title { fill: #caff45; font: 800 9.5px "JetBrains Mono", monospace; }
+.rotary-phase-diagram .dual-dcbus-sub { fill: #b7ccc4; font: 600 8.5px "JetBrains Mono", monospace; }
+.rotary-phase-diagram .dual-batt-box { fill: #f4f8f6; stroke: #c9d8d1; stroke-width: 1.2; }
+.rotary-phase-diagram .dual-batt-box.active { fill: #f1fff8; stroke: #6dc9aa; }
+.rotary-phase-diagram .dual-batt-title { fill: #41524d; font-size: 8.5px; font-weight: 800; }
+.rotary-phase-diagram .dual-batt-kw { fill: #778780; font: 700 9.5px "JetBrains Mono", monospace; }
+.rotary-phase-diagram .dual-batt-kw.out { fill: #1a9474; }
+.rotary-phase-diagram .dual-batt-kw.in { fill: #2c78c5; }
+.rotary-phase-diagram .dual-flow-arrow { stroke: #cbd6d1; stroke-width: 2.5; stroke-dasharray: 4 3; }
+.rotary-phase-diagram .dual-flow-arrow.active-gen { stroke: #6476ef; animation: dash .9s linear infinite; }
+.rotary-phase-diagram .dual-flow-arrow.active-drive { stroke: #1caa89; animation: dash .9s linear infinite; }
+.rotary-phase-diagram .dual-flow-arrow.active-regen { stroke: #367dc9; animation: dash .9s linear infinite; }
+.rotary-phase-diagram .dual-flow-arrow.active-batt-out { stroke: #2da867; animation: dash .9s linear infinite; }
+.rotary-phase-diagram .dual-flow-arrow.active-batt-in { stroke: #367dc9; animation: dash .9s linear infinite; }
+
+/* Rotary-EV control deck: Normal / EV / Charge + Target SOC + Plug-in + Presets */
+.rotary-control-deck {
+  grid-template-rows: auto 24px 1fr;
+  padding: 10px 12px 12px;
+  gap: 7px 10px;
+}
+.rotary-control-deck .run-button {
+  grid-column: 3;
+  grid-row: 2 / 4;
+}
+.rotary-mode-strip {
+  grid-column: 1 / 4;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #dde6e1;
+}
+.rotary-mode-pills {
+  display: inline-flex;
+  padding: 2px;
+  gap: 2px;
+  border-radius: 8px;
+  background: #e7eeea;
+  border: 1px solid #d0dbd5;
+}
+.rotary-mode-pills button {
+  height: 24px;
+  padding: 0 9px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #4f605b;
+  font: 800 9px "JetBrains Mono", Inter, sans-serif;
+  letter-spacing: .04em;
+  cursor: pointer;
+  transition: .15s ease;
+}
+.rotary-mode-pills button.active {
+  background: #142323;
+  color: #fff;
+}
+.rotary-mode-pills button.active.mode-ev {
+  background: #1a9474;
+}
+.rotary-mode-pills button.active.mode-charge {
+  background: #d9552c;
+}
+.charge-target-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px;
+  border-radius: 7px;
+  background: #fff3ee;
+  border: 1px solid #f4cbbd;
+  font-size: 8.5px;
+  font-weight: 800;
+  color: #b8421f;
+}
+.charge-target-inline input[type="range"] {
+  width: 66px;
+  height: 16px;
+  accent-color: #e45b34;
+  cursor: pointer;
+}
+.charge-target-inline b {
+  font: 700 10px "JetBrains Mono", monospace;
+  min-width: 28px;
+  text-align: right;
+}
+.plugin-button {
+  height: 28px;
+  padding: 0 9px;
+  border-radius: 7px;
+  border: 1px solid #b8dce4;
+  background: #f0fbfe;
+  color: #0e7c94;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font: 800 8.5px "JetBrains Mono", Inter, sans-serif;
+  letter-spacing: .03em;
+  cursor: pointer;
+  transition: .15s ease;
+}
+.plugin-button.active {
+  background: #0d8ea8;
+  border-color: #0d8ea8;
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(13, 142, 168, .28);
+}
+.plugin-button:disabled {
+  opacity: .48;
+  cursor: not-allowed;
+  background: #f2f5f4;
+  border-color: #d6dfdc;
+  color: #7c8c87;
+}
+.rotary-presets {
+  margin-left: auto;
+  display: inline-flex;
+  gap: 4px;
+}
+.rotary-presets button {
+  height: 24px;
+  padding: 0 7px;
+  border-radius: 6px;
+  border: 1px solid #d4dfda;
+  background: #fff;
+  color: #4f615b;
+  font: 700 8px "JetBrains Mono", Inter, sans-serif;
+  cursor: pointer;
+  transition: .15s ease;
+}
+.rotary-presets button:hover {
+  border-color: #88a499;
+  color: #142323;
+  background: #f4faf7;
+}
+
+/* External charger node in Rotary EnergyFlow */
+.rotary-flow-diagram .ext-node { right: 8px; bottom: 7px; }
+.rotary-flow-diagram .ext-node.ext-active {
+  color: #0b7a93;
+  border-color: #7ed4e6;
+  background: #ecfbff;
+}
+.flow-lines path.ext-charge { stroke: #12a8c8; animation: dash 1.1s linear infinite; }
+
+/* Charge Target SOC tick & 50 L Fuel Gauge in Rotary Battery Card */
+.charge-target-marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2.5px;
+  background: #e45b34;
+  box-shadow: 0 0 4px rgba(228, 91, 52, .7);
+  z-index: 2;
+  transform: translateX(-1px);
+}
+.rotary-battery-panel {
+  grid-template-rows: auto auto auto auto auto;
+}
+.fuel-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 7.5px;
+  color: #6b7b75;
+}
+.fuel-strip span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.fuel-strip span b {
+  font: 700 8.5px "JetBrains Mono", monospace;
+  color: #293936;
+}
+.fuel-strip span.depleted b {
+  color: #d94c26;
+}
+.fuel-bar {
+  flex: 1;
+  height: 5px;
+  border-radius: 3px;
+  background: #e4eae7;
+  overflow: hidden;
+}
+.fuel-bar i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #ff7048, #f4b23a);
+  transition: width .18s linear;
+}
+
+@media (max-width: 1250px) {
+  .rotary-control-deck .pedal-row { padding: 12px 12px; }
+}
+@media (max-width: 560px) {
+  .rotary-control-deck {
+    grid-template-columns: 1fr 58px;
+    grid-template-rows: auto 22px auto auto;
+  }
+  .rotary-mode-strip { grid-column: 1 / 3; }
+  .rotary-control-deck .run-button { grid-column: 2; grid-row: 2 / 5; }
+  .rotary-presets { margin-left: 0; }
+}
