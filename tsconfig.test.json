@@ -10,6 +10,7 @@
     "rootDir": "."
   },
   "include": [
+    "src/components/epowerLabelLayout.ts",
     "src/simulation/model.ts",
     "src/simulation/epowerModel.ts",
     "src/simulation/rotaryGeometry.ts",
