@@ -701,3 +701,109 @@ main { min-height: 0; padding: 9px 10px 8px; }
   .rotary-control-deck .run-button { grid-column: 2; grid-row: 2 / 5; }
   .rotary-presets { margin-left: 0; }
 }
+
+/* ================= NEW MODES CALLOUT (NON-MODAL) ================= */
+.system-switcher-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.new-modes-callout {
+  position: absolute;
+  top: calc(100% + 9px);
+  left: 60%;
+  transform: translateX(-50%);
+  z-index: 35;
+  width: max-content;
+  max-width: min(360px, calc(100vw - 20px));
+  pointer-events: none;
+  user-select: none;
+}
+
+.new-modes-callout.is-positioned {
+  transform: none;
+}
+
+.new-modes-callout-bubble {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 11px;
+  border-radius: 9px;
+  background: #142323;
+  color: #f4faf7;
+  border: 1px solid rgba(186, 251, 207, .32);
+  box-shadow: 0 10px 24px rgba(17, 34, 32, .22), 0 2px 6px rgba(17, 34, 32, .12);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: .01em;
+  pointer-events: none;
+  animation: new-modes-callout-in .22s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.new-modes-callout-arrow {
+  position: absolute;
+  top: -5px;
+  left: var(--callout-arrow-left, 56%);
+  width: 9px;
+  height: 9px;
+  background: #142323;
+  border-top: 1px solid rgba(186, 251, 207, .32);
+  border-left: 1px solid rgba(186, 251, 207, .32);
+  border-top-left-radius: 2px;
+  transform: translateX(-50%) rotate(45deg);
+  pointer-events: none;
+}
+
+.new-modes-callout-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--lime);
+  box-shadow: 0 0 8px rgba(202, 255, 69, .75);
+}
+
+.new-modes-callout-text {
+  overflow-wrap: break-word;
+}
+
+@keyframes new-modes-callout-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 560px) {
+  .system-switcher-wrap {
+    margin-right: auto;
+  }
+  .system-switcher {
+    margin-right: 0;
+  }
+  .new-modes-callout {
+    top: calc(100% + 8px);
+    max-width: min(320px, calc(100vw - 20px));
+  }
+  .new-modes-callout-bubble {
+    padding: 6px 10px;
+    font-size: 10.5px;
+    gap: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .new-modes-callout-bubble {
+    animation: none;
+    transition: none;
+  }
+}

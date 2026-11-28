@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
     "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "jsx": "react-jsx",
     "strict": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -15,6 +17,9 @@
     "src/simulation/rotaryGeometry.ts",
     "src/simulation/rotaryModel.ts",
     "src/simulation/thsStep.ts",
+    "src/i18n.ts",
+    "src/newModesCallout.ts",
+    "src/components/NewModesCallout.tsx",
     "tests/**/*.ts"
   ]
 }
