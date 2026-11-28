@@ -807,3 +807,24 @@ main { min-height: 0; padding: 9px 10px 8px; }
     transition: none;
   }
 }
+
+/* e-POWER 3D screen-space floating labels (isolated from THS2 & Rotary-EV) */
+.epower-html-wrapper,
+.epower-html-anchor {
+  pointer-events: none;
+  user-select: none;
+}
+.three-label.epower-three-label {
+  display: inline-flex;
+  align-items: center;
+  font-size: 10px;
+  line-height: 1.1;
+  padding: 2px 5px;
+  border-radius: 3px;
+  letter-spacing: .015em;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .14);
+  transform: scale(var(--ep-label-scale, 0.87));
+  transform-origin: center center;
+  pointer-events: none;
+  user-select: none;
+}
