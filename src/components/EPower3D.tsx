@@ -1,9 +1,18 @@
-import { Canvas, useFrame } from '@react-three/fiber'
+import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { ContactShadows, Environment, Html, OrbitControls } from '@react-three/drei'
-import { useEffect, useMemo, useRef } from 'react'
+import { type CSSProperties, useEffect, useMemo, useRef } from 'react'
 import * as THREE from 'three'
 import type { EPowerSnapshot } from '../simulation/epowerModel'
 import type { TFunction } from '../i18n'
+import {
+  EPOWER_3D_LABELS,
+  EPOWER_ASSEMBLY_TRANSFORM,
+  EPOWER_CAMERA_CONFIG,
+  clampEPowerLabelPosition,
+  computeEPowerLabelMetrics,
+  estimateEPowerLabelDimensions,
+  type EPowerLabelId,
+} from './epowerLabelLayout'
 
 /**
  * Educational schematic 3D visualization of Nissan 3rd-generation e-POWER.
@@ -183,6 +192,95 @@ function PowerPulseStream({ points, powerKw, direction, maxPowerKw, color, emiss
   )
 }
 
+const HTML_CONTAINER_STYLE: CSSProperties = { pointerEvents: 'none' }
+const LABEL_Z_INDEX_RANGE: [number, number] = [10, 1]
+const labelProjectionScratch = new THREE.Vector3()
+
+function epowerLabelText(id: EPowerLabelId, t: TFunction): string {
+  switch (id) {
+    case 'engine':
+      return `${t('epEngineShort')} · ZR15DDTe`
+    case 'generator':
+      return `${t('epGeneratorShort')} · ×2.2`
+    case 'dcbus':
+      return `5-IN-1 · ${t('epDcBus')}`
+    case 'motor':
+      return `${t('epMotorShort')} · 151 kW`
+    case 'battery':
+      return `${t('battery')} · 2.1 kWh`
+  }
+}
+
+function EPowerFloatingLabels({ t }: { t: TFunction }) {
+  const size = useThree((state) => state.size)
+  const metrics = useMemo(
+    () => computeEPowerLabelMetrics(size.width, size.height),
+    [size.width, size.height],
+  )
+  const labelStyle = useMemo(
+    () => ({ '--ep-label-scale': metrics.scale }) as CSSProperties,
+    [metrics.scale],
+  )
+  const engineText = epowerLabelText('engine', t)
+  const generatorText = epowerLabelText('generator', t)
+  const dcbusText = epowerLabelText('dcbus', t)
+  const motorText = epowerLabelText('motor', t)
+  const batteryText = epowerLabelText('battery', t)
+
+  const items = useMemo(() => {
+    const texts: Record<EPowerLabelId, string> = {
+      engine: engineText,
+      generator: generatorText,
+      dcbus: dcbusText,
+      motor: motorText,
+      battery: batteryText,
+    }
+    return EPOWER_3D_LABELS.map((anchor) => {
+      const text = texts[anchor.id]
+      const bounds = estimateEPowerLabelDimensions(text, metrics)
+      const calculatePosition = (
+        el: THREE.Object3D,
+        camera: THREE.Camera,
+        viewport: { width: number; height: number },
+      ): [number, number] => {
+        labelProjectionScratch.setFromMatrixPosition(el.matrixWorld)
+        labelProjectionScratch.project(camera)
+        const halfW = viewport.width / 2
+        const halfH = viewport.height / 2
+        const rawX = labelProjectionScratch.x * halfW + halfW
+        const rawY = -(labelProjectionScratch.y * halfH) + halfH
+        return clampEPowerLabelPosition(rawX, rawY, viewport.width, viewport.height, bounds)
+      }
+      return { anchor, text, calculatePosition }
+    })
+  }, [metrics, engineText, generatorText, dcbusText, motorText, batteryText])
+
+  return (
+    <>
+      {items.map(({ anchor, text, calculatePosition }) => (
+        <Html
+          key={anchor.id}
+          position={[anchor.position[0], anchor.position[1], anchor.position[2]]}
+          center
+          wrapperClass="epower-html-wrapper"
+          className="epower-html-anchor"
+          style={HTML_CONTAINER_STYLE}
+          pointerEvents="none"
+          zIndexRange={LABEL_Z_INDEX_RANGE}
+          calculatePosition={calculatePosition}
+        >
+          <span
+            className={`three-label epower-three-label ${anchor.toneClass}`}
+            style={labelStyle}
+          >
+            {text}
+          </span>
+        </Html>
+      ))}
+    </>
+  )
+}
+
 function EPowerAssembly({ snapshot, t }: { snapshot: EPowerSnapshot; t: TFunction }) {
   const crankRef = useRef<THREE.Group>(null)
   const pistonRefs = useRef<Array<THREE.Mesh | null>>([])
@@ -294,7 +392,18 @@ function EPowerAssembly({ snapshot, t }: { snapshot: EPowerSnapshot; t: TFunctio
   }, [frameGeometries])
 
   return (
-    <group position={[0.1, 0.08, 0]} rotation={[0.14, -0.16, 0]}>
+    <group
+      position={[
+        EPOWER_ASSEMBLY_TRANSFORM.position[0],
+        EPOWER_ASSEMBLY_TRANSFORM.position[1],
+        EPOWER_ASSEMBLY_TRANSFORM.position[2],
+      ]}
+      rotation={[
+        EPOWER_ASSEMBLY_TRANSFORM.rotation[0],
+        EPOWER_ASSEMBLY_TRANSFORM.rotation[1],
+        EPOWER_ASSEMBLY_TRANSFORM.rotation[2],
+      ]}
+    >
       {/* ================= 5-IN-1 SCHEMATIC ENCLOSURE ================= */}
       <group position={[0.92, 0.05, 0]}>
         <mesh>
@@ -614,21 +723,7 @@ function EPowerAssembly({ snapshot, t }: { snapshot: EPowerSnapshot; t: TFunctio
       />
 
       {/* ================= FLOATING LABELS ================= */}
-      <Html position={[-2.95, 2.55, 0]} center distanceFactor={11}>
-        <span className="three-label engine-label">{t('epEngineShort')} · ZR15DDTe</span>
-      </Html>
-      <Html position={[-0.3, 1.9, 0.9]} center distanceFactor={11}>
-        <span className="three-label mg1-label">{t('epGeneratorShort')} · ×2.2</span>
-      </Html>
-      <Html position={[0.72, 0.92, 0.5]} center distanceFactor={11}>
-        <span className="three-label dcbus-label">5-IN-1 · {t('epDcBus')}</span>
-      </Html>
-      <Html position={[2.25, -1.92, -0.25]} center distanceFactor={11}>
-        <span className="three-label mg2-label">{t('epMotorShort')} · 151 kW</span>
-      </Html>
-      <Html position={[-1.95, -2.0, 0.45]} center distanceFactor={11}>
-        <span className="three-label batt-label">{t('battery')} · 2.1 kWh</span>
-      </Html>
+      <EPowerFloatingLabels t={t} />
     </group>
   )
 }
@@ -638,7 +733,14 @@ export function EPower3D({ snapshot, t }: { snapshot: EPowerSnapshot; t: TFuncti
     <div className="three-wrap">
       <Canvas
         key="epower-3d-canvas"
-        camera={{ position: [0.3, 1.35, 10.6], fov: 39 }}
+        camera={{
+          position: [
+            EPOWER_CAMERA_CONFIG.position[0],
+            EPOWER_CAMERA_CONFIG.position[1],
+            EPOWER_CAMERA_CONFIG.position[2],
+          ],
+          fov: EPOWER_CAMERA_CONFIG.fov,
+        }}
         dpr={[1, 1.75]}
         gl={{ antialias: true, alpha: true }}
       >
@@ -648,7 +750,12 @@ export function EPower3D({ snapshot, t }: { snapshot: EPowerSnapshot; t: TFuncti
         <EPowerAssembly snapshot={snapshot} t={t} />
         <ContactShadows position={[0, -2.55, 0]} opacity={0.24} scale={12} blur={2.6} />
         <Environment preset="studio" />
-        <OrbitControls enablePan={false} minDistance={7.4} maxDistance={14} autoRotate={false} />
+        <OrbitControls
+          enablePan={false}
+          minDistance={EPOWER_CAMERA_CONFIG.minDistance}
+          maxDistance={EPOWER_CAMERA_CONFIG.maxDistance}
+          autoRotate={false}
+        />
       </Canvas>
       <div className="drag-hint">{t('epVisualScaleHint')} · {t('dragHint')}</div>
     </div>
