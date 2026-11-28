@@ -1,6 +1,6 @@
-import type { DriveMode, TerrainKind } from './simulation/model'
-import type { EPowerDriveMode } from './simulation/epowerModel'
-import type { RotaryDriveMode } from './simulation/rotaryModel'
+import type { DriveMode, TerrainKind } from './simulation/model.js'
+import type { EPowerDriveMode } from './simulation/epowerModel.js'
+import type { RotaryDriveMode } from './simulation/rotaryModel.js'
 
 export type Locale = 'EN' | 'JP' | 'ZH' | 'DE' | 'FR'
 
@@ -30,6 +30,7 @@ const en = {
 
   // Nissan 3rd-Generation e-POWER additions
   drivetrainSystem: 'Drivetrain system',
+  newModesCallout: 'New modes! Try e-POWER and Rotary-EV.',
   epBrandSubtitle: '3RD-GEN SERIES HYBRID ELECTRIC DRIVE',
   epSeriesDrive: 'SERIES DRIVE',
   epPowerAssist: 'POWER ASSIST',
@@ -178,6 +179,7 @@ const jp: Dictionary = {
   disclaimer: '教育用の準物理モデルです。公開された最大仕様を使用し、非公開の制御則・詳細効率値は近似しています。', toyotaSpec: 'TOYOTA · THS II 仕様 ↗', ornlLayout: 'ORNL · PSD歯数 / 構造 ↗', close: '閉じる',
 
   drivetrainSystem: 'ハイブリッド方式の切替',
+  newModesCallout: '新モード追加！ e-POWER・ロータリーEVも試せます',
   epBrandSubtitle: '第3世代シリーズハイブリッド駆動教材',
   epSeriesDrive: '発電走行',
   epPowerAssist: 'アシスト走行',
@@ -310,6 +312,7 @@ const zh: Dictionary = {
   tryIt: '试一试：', tryBody: '行驶中松开加速踏板。MG2会带动MG1反转。下坡时，系统自动进行能量回收以保持车速。', modelBasis: '模型基准 · NHW20（2003–2009）', modelSpecs: '质量 1,325 kg · 发动机 57 kW / 115 Nm · MG2 50 kW / 400 Nm · 系统 82 kW · NiMH 201.6 V', disclaimer: '这是教学用准物理模型。采用公开的最大规格；未公开的控制逻辑和详细效率数据为近似值。', toyotaSpec: 'TOYOTA · THS II 规格 ↗', ornlLayout: 'ORNL · PSD齿数 / 结构 ↗', close: '关闭',
 
   drivetrainSystem: '切换混动系统',
+  newModesCallout: '新增模式！可体验 e-POWER 和 Rotary-EV。',
   epBrandSubtitle: '第三代串联混合动力电驱教材',
   epSeriesDrive: '发电驱动',
   epPowerAssist: '电驱助力',
@@ -436,6 +439,7 @@ const de: Dictionary = {
   discharge: 'Entladen', charge: 'Laden', regenTotal: 'Rekuperiert', realTimeModel: 'QUASIPHYSIKALISCHES ECHTZEITMODELL', modelSources: 'MODELL & QUELLEN', outputLevel: 'ANTRIEBSLEISTUNG', regenLevel: 'REKUPERATION', systemBasis: 'von 82 kW Systemleistung', regenBasis: 'von 25 kW Reku-Limit', learningDeck: 'LERNDECK', learnTitle: 'Drei Wellen. Nur zwei sind frei wählbar.', learnLead: 'THS II nutzt einen Planetenradsatz als Getriebe und Leistungsverzweigung. Die drei Wellendrehzahlen sind stets durch eine von den Zähnezahlen bestimmte Gleichung gebunden.', ringLearnTitle: 'Hohlrad → MG2 / Räder', ringLearnBody: 'Das äußere Hohlrad ist mit MG2 und dem Achsantrieb verbunden. Steht die Fahrzeuggeschwindigkeit fest, gilt das auch für MG2.', sunLearnTitle: 'Sonnenrad → MG1', sunLearnBody: 'Das Sonnenrad ist mit MG1 verbunden. Drehzahl und Generatormoment von MG1 bestimmen den Betriebspunkt des Verbrenners.', carrierLearnTitle: 'Träger → Verbrenner', carrierLearnBody: 'Der Träger der drei Planetenräder ist die Motorwelle. Die Motorleistung teilt sich in einen mechanischen und einen elektrischen Pfad.', tryIt: 'AUSPROBIEREN:', tryBody: 'Nimm während der Fahrt das Fahrpedal zurück. MG2 zieht MG1 in Gegenrichtung. Bergab hält Rekuperation automatisch die Geschwindigkeit.', modelBasis: 'MODELLBASIS · NHW20 (2003–2009)', modelSpecs: 'Masse 1.325 kg · Motor 57 kW / 115 Nm · MG2 50 kW / 400 Nm · System 82 kW · NiMH 201,6 V', disclaimer: 'Quasiphysikalisches Lernmodell. Veröffentlichte Maximaldaten sind real; nicht veröffentlichte Regelung und Detailwirkungsgrade sind angenähert.', toyotaSpec: 'TOYOTA · THS II DATEN ↗', ornlLayout: 'ORNL · PSD-ZÄHNE / AUFBAU ↗', close: 'Schließen',
 
   drivetrainSystem: 'Antriebssystem wählen',
+  newModesCallout: 'Neue Modi! Probiere auch e-POWER und Rotary-EV.',
   epBrandSubtitle: 'SERIELLER HYBRIDANTRIEB DER 3. GEN.',
   epSeriesDrive: 'SERIENBETRIEB',
   epPowerAssist: 'POWER-ASSIST',
@@ -562,6 +566,7 @@ const fr: Dictionary = {
   discharge: 'décharge', charge: 'charge', regenTotal: 'Récupération totale', realTimeModel: 'MODÈLE QUASI-PHYSIQUE TEMPS RÉEL', modelSources: 'MODÈLE & SOURCES', outputLevel: 'PUISSANCE MOTRICE', regenLevel: 'RÉCUPÉRATION', systemBasis: 'sur 82 kW système', regenBasis: 'sur limite 25 kW', learningDeck: 'FICHES PÉDAGOGIQUES', learnTitle: 'Trois axes. Seulement deux sont libres.', learnLead: 'Le THS II utilise un train épicycloïdal comme transmission et comme répartiteur de puissance. Les vitesses des trois axes sont toujours liées par une équation définie par les dentures.', ringLearnTitle: 'Couronne → MG2 / roues', ringLearnBody: 'La couronne extérieure est reliée à MG2 et au réducteur final. La vitesse du véhicule détermine donc celle de MG2.', sunLearnTitle: 'Solaire → MG1', sunLearnBody: 'Le planétaire solaire est relié à MG1. Sa vitesse et son couple générateur créent le point de fonctionnement du moteur.', carrierLearnTitle: 'Porte-satellites → moteur', carrierLearnBody: 'Le porte-satellites supportant les trois pignons est l’arbre moteur. La puissance se divise en voies mécanique et électrique.', tryIt: 'À ESSAYER :', tryBody: 'Relâchez l’accélérateur en roulant. MG2 entraîne MG1 en sens inverse. En descente, la régénération maintient automatiquement la vitesse.', modelBasis: 'BASE DU MODÈLE · NHW20 (2003–2009)', modelSpecs: 'Masse 1 325 kg · Moteur 57 kW / 115 Nm · MG2 50 kW / 400 Nm · Système 82 kW · NiMH 201,6 V', disclaimer: 'Modèle quasi-physique pédagogique. Les maxima publiés sont utilisés ; les lois de commande et rendements détaillés non publics sont approximés.', toyotaSpec: 'TOYOTA · DONNÉES THS II ↗', ornlLayout: 'ORNL · DENTURE / ARCHITECTURE ↗', close: 'Fermer',
 
   drivetrainSystem: 'Système hybride',
+  newModesCallout: 'Nouveaux modes ! Essayez aussi e-POWER et Rotary-EV.',
   epBrandSubtitle: 'HYBRIDE SÉRIE ÉLECTRIQUE 3E GÉN.',
   epSeriesDrive: 'MODE SÉRIE',
   epPowerAssist: 'ASSISTANCE',

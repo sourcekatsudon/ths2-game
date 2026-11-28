@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import {
   Activity, Battery, BookOpen, Box, ChevronRight, CirclePause, CirclePlay, Cpu, Fuel,
   Gauge as GaugeIcon, Info, Languages, PlugZap, RotateCcw, Settings2, Sparkles, Zap,
@@ -16,6 +16,13 @@ import { RotaryPhaseDiagram } from './components/RotaryPhaseDiagram'
 import { RotaryEfficiencyMap } from './components/RotaryEfficiencyMap'
 import { RotaryEnergyFlow } from './components/RotaryEnergyFlow'
 import { RotaryRoadScene } from './components/RotaryRoadScene'
+import { NewModesCallout } from './components/NewModesCallout'
+import {
+  getSafeLocalStorage,
+  readSafeStorageItem,
+  writeSafeStorageItem,
+} from './newModesCallout'
+import { useNewModesCallout } from './useNewModesCallout'
 import {
   epowerModeTranslationKey,
   localeLabels,
@@ -46,36 +53,62 @@ function Metric({ label, value, unit, tone, icon }: { label: string; value: stri
   return <div className={`metric ${tone ?? ''}`}><div className="metric-label">{icon}{label}</div><div className="metric-value"><b>{value}</b><span>{unit}</span></div></div>
 }
 
-function SystemSwitcher({ system, onSwitch, t }: { system: SystemId; onSwitch: (next: SystemId) => void; t: TFunction }) {
+function SystemSwitcher({
+  system,
+  onSwitch,
+  t,
+  showNewModesCallout,
+}: {
+  system: SystemId
+  onSwitch: (next: SystemId) => void
+  t: TFunction
+  showNewModesCallout: boolean
+}) {
+  const anchorRef = useRef<HTMLDivElement | null>(null)
+  const epowerTabRef = useRef<HTMLButtonElement | null>(null)
+  const rotaryTabRef = useRef<HTMLButtonElement | null>(null)
+
   return (
-    <div className="system-switcher" role="tablist" aria-label={t('drivetrainSystem')}>
-      <button
-        type="button"
-        role="tab"
-        aria-selected={system === 'ths'}
-        className={system === 'ths' ? 'active' : ''}
-        onClick={() => onSwitch('ths')}
-      >
-        THS2
-      </button>
-      <button
-        type="button"
-        role="tab"
-        aria-selected={system === 'epower'}
-        className={system === 'epower' ? 'active epower-tab' : 'epower-tab'}
-        onClick={() => onSwitch('epower')}
-      >
-        e-POWER <span>GEN 3</span>
-      </button>
-      <button
-        type="button"
-        role="tab"
-        aria-selected={system === 'rotary'}
-        className={system === 'rotary' ? 'active rotary-tab' : 'rotary-tab'}
-        onClick={() => onSwitch('rotary')}
-      >
-        ROTARY-EV <span>8C</span>
-      </button>
+    <div className="system-switcher-wrap" ref={anchorRef}>
+      <div className="system-switcher" role="tablist" aria-label={t('drivetrainSystem')}>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={system === 'ths'}
+          className={system === 'ths' ? 'active' : ''}
+          onClick={() => onSwitch('ths')}
+        >
+          THS2
+        </button>
+        <button
+          ref={epowerTabRef}
+          type="button"
+          role="tab"
+          aria-selected={system === 'epower'}
+          className={system === 'epower' ? 'active epower-tab' : 'epower-tab'}
+          onClick={() => onSwitch('epower')}
+        >
+          e-POWER <span>GEN 3</span>
+        </button>
+        <button
+          ref={rotaryTabRef}
+          type="button"
+          role="tab"
+          aria-selected={system === 'rotary'}
+          className={system === 'rotary' ? 'active rotary-tab' : 'rotary-tab'}
+          onClick={() => onSwitch('rotary')}
+        >
+          ROTARY-EV <span>8C</span>
+        </button>
+      </div>
+      {showNewModesCallout && (
+        <NewModesCallout
+          text={t('newModesCallout')}
+          anchorRef={anchorRef}
+          firstNewTabRef={epowerTabRef}
+          lastNewTabRef={rotaryTabRef}
+        />
+      )}
     </div>
   )
 }
@@ -151,10 +184,11 @@ interface WorkspaceProps {
   setLocale: (next: Locale) => void
   showLearn: boolean
   setShowLearn: (next: boolean) => void
+  showNewModesCallout: boolean
   t: TFunction
 }
 
-function ThsWorkspace({ system, onSwitchSystem, locale, setLocale, showLearn, setShowLearn, t }: WorkspaceProps) {
+function ThsWorkspace({ system, onSwitchSystem, locale, setLocale, showLearn, setShowLearn, showNewModesCallout, t }: WorkspaceProps) {
   const { snapshot, input, setInput, reset } = useSimulation()
   const constraintError = PRIUS.ringTeeth * snapshot.mg2.rpm + PRIUS.sunTeeth * snapshot.mg1.rpm - (PRIUS.ringTeeth + PRIUS.sunTeeth) * snapshot.engine.rpm
   const fuelEconomyKmL = snapshot.fuelRateLph > 0.01
@@ -166,7 +200,7 @@ function ThsWorkspace({ system, onSwitchSystem, locale, setLocale, showLearn, se
       <header className="app-header">
         <div className="brand-mark"><div className="brand-orbit"><i /><i /><i /></div></div>
         <div className="brand-copy"><b>THS // POWER SPLIT LAB</b><span>{t('brandSubtitle')}</span></div>
-        <SystemSwitcher system={system} onSwitch={onSwitchSystem} t={t} />
+        <SystemSwitcher system={system} onSwitch={onSwitchSystem} t={t} showNewModesCallout={showNewModesCallout} />
         <div className="header-divider" />
         <div className="vehicle-id"><span>{t('simulationVehicle')}</span><b>{PRIUS.model}</b></div>
         <div className="header-status"><i /> {t('gpuRendering')} <span>60 FPS</span></div>
@@ -259,7 +293,7 @@ function ThsWorkspace({ system, onSwitchSystem, locale, setLocale, showLearn, se
   )
 }
 
-function EPowerWorkspace({ system, onSwitchSystem, locale, setLocale, showLearn, setShowLearn, t }: WorkspaceProps) {
+function EPowerWorkspace({ system, onSwitchSystem, locale, setLocale, showLearn, setShowLearn, showNewModesCallout, t }: WorkspaceProps) {
   const { snapshot, input, setInput, reset } = useEPowerSimulation()
   const fuelEconomyKmL = snapshot.fuelRateLph > 0.01
     ? Math.min(99.9, snapshot.speedKph / snapshot.fuelRateLph).toFixed(1)
@@ -270,7 +304,7 @@ function EPowerWorkspace({ system, onSwitchSystem, locale, setLocale, showLearn,
       <header className="app-header">
         <div className="brand-mark epower-mark"><Zap size={18} /></div>
         <div className="brand-copy"><b>e-POWER // GEN 3 LAB</b><span>{t('epBrandSubtitle')}</span></div>
-        <SystemSwitcher system={system} onSwitch={onSwitchSystem} t={t} />
+        <SystemSwitcher system={system} onSwitch={onSwitchSystem} t={t} showNewModesCallout={showNewModesCallout} />
         <div className="header-divider" />
         <div className="vehicle-id"><span>{t('simulationVehicle')}</span><b>{EPOWER.model}</b></div>
         <div className="header-status"><i /> {t('gpuRendering')} <span>60 FPS</span></div>
@@ -439,7 +473,7 @@ function RotaryBrandMark() {
   )
 }
 
-function RotaryWorkspace({ system, onSwitchSystem, locale, setLocale, showLearn, setShowLearn, t }: WorkspaceProps) {
+function RotaryWorkspace({ system, onSwitchSystem, locale, setLocale, showLearn, setShowLearn, showNewModesCallout, t }: WorkspaceProps) {
   const { snapshot, input, setInput, setControlMode, applyPreset, reset, liveAnglesRef } = useRotarySimulation()
 
   const econDisplay = (() => {
@@ -468,7 +502,7 @@ function RotaryWorkspace({ system, onSwitchSystem, locale, setLocale, showLearn,
       <header className="app-header">
         <RotaryBrandMark />
         <div className="brand-copy"><b>ROTARY-EV // e-SKYACTIV R-EV</b><span>{t('rotBrandSubtitle')}</span></div>
-        <SystemSwitcher system={system} onSwitch={onSwitchSystem} t={t} />
+        <SystemSwitcher system={system} onSwitch={onSwitchSystem} t={t} showNewModesCallout={showNewModesCallout} />
         <div className="header-divider" />
         <div className="vehicle-id"><span>{t('simulationVehicle')}</span><b>{ROTARY_EV.model}</b></div>
         <div className="header-status"><i /> {t('gpuRendering')} <span>60 FPS</span></div>
@@ -655,8 +689,9 @@ function RotaryWorkspace({ system, onSwitchSystem, locale, setLocale, showLearn,
 export default function App() {
   const [system, setSystem] = useState<SystemId>('ths')
   const [showLearn, setShowLearn] = useState(false)
+  const showNewModesCallout = useNewModesCallout()
   const [locale, setLocaleState] = useState<Locale>(() => {
-    const saved = window.localStorage.getItem('ths-locale')
+    const saved = readSafeStorageItem(getSafeLocalStorage(typeof window !== 'undefined' ? window : null), 'ths-locale')
     return LOCALES.includes(saved as Locale) ? saved as Locale : 'EN'
   })
   const t: TFunction = (key) => translate(locale, key)
@@ -669,7 +704,7 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.lang = ({ EN: 'en', JP: 'ja', ZH: 'zh-CN', DE: 'de', FR: 'fr' } as const)[locale]
-    window.localStorage.setItem('ths-locale', locale)
+    writeSafeStorageItem(getSafeLocalStorage(typeof window !== 'undefined' ? window : null), 'ths-locale', locale)
   }, [locale])
 
   if (system === 'epower') {
@@ -681,6 +716,7 @@ export default function App() {
         setLocale={setLocaleState}
         showLearn={showLearn}
         setShowLearn={setShowLearn}
+        showNewModesCallout={showNewModesCallout}
         t={t}
       />
     )
@@ -695,6 +731,7 @@ export default function App() {
         setLocale={setLocaleState}
         showLearn={showLearn}
         setShowLearn={setShowLearn}
+        showNewModesCallout={showNewModesCallout}
         t={t}
       />
     )
@@ -708,6 +745,7 @@ export default function App() {
       setLocale={setLocaleState}
       showLearn={showLearn}
       setShowLearn={setShowLearn}
+      showNewModesCallout={showNewModesCallout}
       t={t}
     />
   )
